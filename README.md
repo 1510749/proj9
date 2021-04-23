@@ -1,1 +1,3 @@
 # proj9
+
+i dont really know what im doing anymore...
