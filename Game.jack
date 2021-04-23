@@ -1,0 +1,114 @@
+class Game {
+	static int seed;
+   field Square player0; // the square of this game
+   field Point point1;
+   field Point point2;
+   field Point point3;
+   field int direction; // the square's current direction: 
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+
+   /** Constructs a new Player Game. */
+   constructor Game new() {
+      // Creates a 10 by 10 pixels square and positions it at the top-left
+      // of the screen.
+      let player0 = Square.new(255, 127, 10);
+      let direction = 0;  // initial state is no movement
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do player0.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the square in the current direction. */
+   method void moveSquare() {
+      if (direction = 1) { do player0.moveUp(); }
+      if (direction = 2) { do player0.moveDown(); }
+      if (direction = 3) { do player0.moveLeft(); }
+      if (direction = 4) { do player0.moveRight(); }
+      do Sys.wait(8);  // delays the next movement
+      return;
+   }
+   
+	
+    method int rand() {
+        /** return a random number in the range 0..32767 */
+        let seed = seed + 20251;
+        if (seed < 0) {
+            let seed = seed - 32767 - 1;
+        }
+        return seed;
+    }
+	method int randRange(int range) {
+        /** return a random number in the range 0..range */
+        var int mask;
+        var int ret;
+        let mask = 1;
+        while (mask < range) {
+            let mask = mask * 2 + 1;
+        }
+        let ret = rand() & mask;
+        while (ret > range) {
+            let ret = rand() & mask;
+        }
+        return ret;
+    }
+
+   /** Runs the game: handles the user's inputs and moves the square accordingly */
+   method void run() {
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+	  var int i, c, score, mx, my, px, py, active;
+      let exit = false;
+	  let c = 0;
+	  
+	  do Output.printString("Score: ");
+	  let score = 0;
+      do Output.printInt(score);
+
+      while (~exit) {
+         // waits for a key to be pressed
+         while (key = 0) {
+            let key = Keyboard.keyPressed();
+			let direction = 0;
+            do moveSquare();
+         }
+		 
+         if (key = 81)  { let exit = true; }     // q key
+         if (key = 131) { let direction = 1; }   // up arrow
+         if (key = 133) { let direction = 2; }   // down arrow
+         if (key = 130) { let direction = 3; }   // left arrow
+         if (key = 132) { let direction = 4; }   // right arrow
+
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+            do moveSquare();
+			let px = player0.posx();
+			let py = player0.posy();
+         }
+		 
+		let active = 0;
+		while(active < 1){
+			let mx = randRange(500);
+			let my = randRange(255);
+			let point1 = Point.new(mx, my, 4);
+			let active = active + 1;
+			//let point2 = Point.new(mx, my, 4);
+			//let point3 = Point.new(mx, my, 4);
+		}
+		 //let score = score + point1.posCheck(px, py);
+		 do Output.backSpace();
+		 do Output.printInt(score);
+		 let c = c + 1;
+		 
+     } // while
+     return;
+   }
+}
+
+
+

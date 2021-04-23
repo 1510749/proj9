@@ -1,0 +1,10 @@
+//IDEA: move square to collect points randomly generated
+class Main {
+    function void main() {
+        var Game game0;
+        let game0 = Game.new();
+        do game0.run();
+        do game0.dispose();
+        return;
+    }
+}

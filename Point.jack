@@ -1,0 +1,41 @@
+class Point {
+	
+	field int xi, yi, ri;
+
+	
+	constructor Point new(int x, int y, int r){
+		let xi = x;
+		let yi = y;
+		let ri = r;
+		do Screen.setColor(true);
+		do Screen.drawCircle(xi, yi, ri);
+		return this;
+	}
+
+	method int posCheck(int playerx, int playery){
+		let xi = playerx;
+		let yi = playery;
+		if ( playerx < (xi+5)){
+			if(playerx > (xi-5)){
+				if ( playery < (yi+5)){
+					if(playery > (yi-5)){
+						do erase();
+						return 1;
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
+	method void dispose() {
+       do Memory.deAlloc(this);
+	   //let score = score + 1;
+       return;
+	}
+	method void erase() {
+       do Screen.setColor(false);
+       do Screen.drawCircle(xi, yi, ri);
+       return;
+	}
+}
